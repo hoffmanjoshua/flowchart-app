@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17183" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="ChartItem" representedClassName="ChartItem" syncable="YES" codeGenerationType="class"/>
+    <entity name="Flowchart" representedClassName="Flowchart" syncable="YES" codeGenerationType="class">
+        <attribute name="content" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ChartItem"/>
+    </entity>
+    <elements>
+        <element name="Flowchart" positionX="-63" positionY="-18" width="128" height="103"/>
+        <element name="ChartItem" positionX="-45" positionY="27" width="128" height="43"/>
+    </elements>
+</model>
