@@ -8,3 +8,7 @@ Flowchart is an app for iOS that organizes your sequential tasks. Add, remove, a
 - [x] Basic Controls
 - [x] Popup Editor
 - [x] Local Data Storage
+
+Task Overview              |  Moving Steps             | Editing Tasks
+:-------------------------:|:-------------------------:|:-------------------------:
+![](/demo-images/Flowchart-Mockup-2.png)   |  ![](/demo-images/Flowchart-Mockup-2.png) | ![](/demo-images/Flowchart-Mockup-3.png)
