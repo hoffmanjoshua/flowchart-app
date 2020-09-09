@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		425C77D425093736003DAE99 /* FlowchartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425C77D325093736003DAE99 /* FlowchartManager.swift */; };
 		425FFB3A24F4B8890004802D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425FFB3924F4B8890004802D /* AppDelegate.swift */; };
 		425FFB3C24F4B8890004802D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425FFB3B24F4B8890004802D /* SceneDelegate.swift */; };
 		425FFB3F24F4B8890004802D /* Flowchart.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 425FFB3D24F4B8890004802D /* Flowchart.xcdatamodeld */; };
@@ -16,10 +17,10 @@
 		425FFB4924F4B88A0004802D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 425FFB4724F4B88A0004802D /* LaunchScreen.storyboard */; };
 		425FFB5124F4B9C30004802D /* FlowchartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425FFB5024F4B9C30004802D /* FlowchartView.swift */; };
 		42B5A58E2508A026009CCB06 /* Blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B5A58D2508A026009CCB06 /* Blur.swift */; };
-		42B5A5902508A5E8009CCB06 /* ChartItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B5A58F2508A5E8009CCB06 /* ChartItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		425C77D325093736003DAE99 /* FlowchartManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowchartManager.swift; sourceTree = "<group>"; };
 		425FFB3624F4B8890004802D /* Flowchart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flowchart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		425FFB3924F4B8890004802D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		425FFB3B24F4B8890004802D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -31,7 +32,6 @@
 		425FFB4A24F4B88A0004802D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		425FFB5024F4B9C30004802D /* FlowchartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowchartView.swift; sourceTree = "<group>"; };
 		42B5A58D2508A026009CCB06 /* Blur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blur.swift; sourceTree = "<group>"; };
-		42B5A58F2508A5E8009CCB06 /* ChartItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,7 +98,7 @@
 		425FFB5524F4B9DC0004802D /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				42B5A58F2508A5E8009CCB06 /* ChartItem.swift */,
+				425C77D325093736003DAE99 /* FlowchartManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -174,8 +174,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				42B5A58E2508A026009CCB06 /* Blur.swift in Sources */,
-				42B5A5902508A5E8009CCB06 /* ChartItem.swift in Sources */,
 				425FFB3F24F4B8890004802D /* Flowchart.xcdatamodeld in Sources */,
+				425C77D425093736003DAE99 /* FlowchartManager.swift in Sources */,
 				425FFB3A24F4B8890004802D /* AppDelegate.swift in Sources */,
 				425FFB4124F4B8890004802D /* ChartListView.swift in Sources */,
 				425FFB5124F4B9C30004802D /* FlowchartView.swift in Sources */,

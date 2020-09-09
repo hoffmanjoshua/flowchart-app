@@ -8,33 +8,47 @@
 import SwiftUI
 
 struct FlowchartView: View {
+
     
-    @State var data: [ChartItem] = [ChartItem.init(content: "0", pos: 0), ChartItem.init(content: "1", pos: 1)]
+    @Environment(\.managedObjectContext) var moc
+    @FetchRequest(
+        entity: FlowchartItem.entity(),
+        sortDescriptors: [NSSortDescriptor(key: "pos", ascending: true)],
+        predicate: nil) var data: FetchedResults<FlowchartItem>
+    
+    @State var pageReady = false
+
+  
     @State var editModalOpen = false
     @State var selectedPos = -1
     
     var body: some View {
-        Group {
-            ZStack {
-                VStack() {
-                    ScrollView {
-                        VStack {
-                            ForEach(data, id: \.id) { entry in
-                                FlowchartStepCard(data: entry, list: $data, modalState: $editModalOpen, selectedPos: $selectedPos)
+        ZStack {
+            NavigationView {
+                ZStack {
+                    VStack() {
+                        ScrollView {
+                            VStack {
+                                ForEach(data, id: \.id){ entry in
+                                    FlowchartStepCard(entry: entry, model: data, modalState: $editModalOpen, selectedPos: $selectedPos)
+                                }
+                                AddNewStepButton(model: data, button: $editModalOpen)
                             }
-                            AddNewStepButton(data: $data, button: $editModalOpen)
                         }
                     }
+                    
+                    if editModalOpen {
+                        EditOverlayModal(editModalOpen: $editModalOpen, model: data, position: selectedPos)
+                    }
                 }
-                .navigationBarTitle("TaskFlow")
-                
-                if editModalOpen {
-                    EditOverlayModal(editModalOpen: $editModalOpen, list: $data, position: selectedPos)
-                }
+                .navigationTitle("Flowchart")
             }
         }
     }
+
 }
+
+
 
 struct FlowchartView_Previews: PreviewProvider {
     static var previews: some View {
@@ -45,13 +59,14 @@ struct FlowchartView_Previews: PreviewProvider {
 }
 
 struct FlowchartStepCard: View {
+
+    @Environment(\.managedObjectContext) var moc
+    var entry: FlowchartItem
     
-    var data: ChartItem
-    
-    @Binding var list: [ChartItem]
+    var model: FetchedResults<FlowchartItem>
     @Binding var modalState: Bool
     @Binding var selectedPos: Int
-    
+
     var body: some View {
 
         ZStack {
@@ -62,22 +77,22 @@ struct FlowchartStepCard: View {
                         VStack {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 25)
-                                    .strokeBorder(Color.blue, lineWidth: selectedPos == data.pos ? 2 : 0)
+                                    .strokeBorder(Color.blue, lineWidth: selectedPos == entry.pos ? 2 : 0)
                                     .background(RoundedRectangle(cornerRadius: 25).foregroundColor(Color(UIColor.secondarySystemFill)))
-                                    
+
                                     .shadow(radius: 10)
-                                
+
                                 VStack{
-                                    Text(data.content)
-                                    Text("Position: \(data.pos)")
+                                    Text(entry.content ?? "n/a")
+                                    Text("Position: \(entry.pos)")
                                 }.padding()
                             }.frame(minWidth: 300, maxWidth: 300, minHeight: 200)
                             .onTapGesture(count: 1, perform: {
                                 withAnimation {
-                                    if selectedPos == data.pos {
+                                    if selectedPos == entry.pos {
                                         selectedPos = -1
                                     } else {
-                                        selectedPos = data.pos
+                                        selectedPos = Int(entry.pos)
                                     }
                                 }
                             })
@@ -89,23 +104,25 @@ struct FlowchartStepCard: View {
                         }
                         Spacer()
                     }
-                    
-                    if selectedPos == data.pos {
-                        ModifyButtonsOverlayView(list: $list, modalState: $modalState, data: data)
+
+                    if selectedPos == entry.pos {
+                        ModifyButtonsOverlayView(model: model, modalState: $modalState, posSelected: $selectedPos, entry: entry)
                     }
-                    
-                    
+
+
                 }
             }
-            
+
         }
     }
 }
 
 struct AddNewStepButton: View {
-    @Binding var data: [ChartItem]
+    var model: FetchedResults<FlowchartItem>
     @Binding var button: Bool
     
+    @Environment(\.managedObjectContext) var moc
+
     var body: some View {
         VStack {
             Image(systemName: "plus.circle")
@@ -114,18 +131,30 @@ struct AddNewStepButton: View {
                 .padding()
         }
         .onTapGesture {
-            data.append(ChartItem(content: "Tap to Edit", pos: data.count))
+            let newItem = FlowchartItem(context: moc)
+            newItem.content = "Click to Edit"
+            newItem.pos = Int16(model.count)
+            newItem.id = UUID()
+            do {
+                try self.moc.save()
+                print("saved new item")
+                print(model)
+            } catch {
+                print(error.localizedDescription)
+          }
         }
     }
 }
 
 struct ModifyButtonsOverlayView: View {
-    
-    @Binding var list: [ChartItem]
+
+    var model: FetchedResults<FlowchartItem>
     @Binding var modalState: Bool
-    
-    var data: ChartItem
-    
+    @Binding var posSelected: Int
+    @Environment(\.managedObjectContext) var moc
+
+    var entry: FlowchartItem
+
     var body: some View {
         VStack {
             Spacer()
@@ -139,14 +168,19 @@ struct ModifyButtonsOverlayView: View {
                         .font(.system(size: 20, weight: .semibold))
                         .padding()
                         .onTapGesture(count: 1, perform: {
-                            if data.pos > 0 {
-                                let element = list.remove(at: data.pos)
-                                list.insert(element, at: data.pos - 1)
-                                list[data.pos - 1].pos -= 1
-                                list[data.pos ].pos += 1
+                            if entry.pos > 0 {
+                                let element = model.first(where: {$0.pos == entry.pos})
+                                let swapElement = model.first(where: {$0.pos == entry.pos - 1})
+                                element?.pos -= 1
+                                swapElement?.pos += 1
+                            }
+                            do {
+                                try moc.save()
+                            } catch {
+                                
                             }
                         })
-                    
+
                 }
                 .frame(width: 35, height: 35)
                 .offset(x: 0, y : 3)
@@ -159,15 +193,19 @@ struct ModifyButtonsOverlayView: View {
                         .font(.system(size: 20, weight: .semibold))
                         .padding()
                         .onTapGesture(count: 1, perform: {
-                            if data.pos >= 0 && data.pos < list.count - 1 {
-                                let element = list.remove(at: data.pos)
-                                list.insert(element, at: data.pos + 1)
-                                list[data.pos].pos -= 1
-                                list[data.pos + 1].pos += 1
+                            if entry.pos >= 0 && entry.pos < model.count - 1 {
+                                let element = model.first(where: {$0.pos == entry.pos})
+                                let swapElement = model.first(where: {$0.pos == entry.pos + 1})
+                                element?.pos += 1
+                                swapElement?.pos -= 1
                             }
-                            
+                            do {
+                                try moc.save()
+                            } catch {
+                                
+                            }
                         })
-                    
+
                 }
                 .frame(width: 35, height: 35)
                 .offset(x: 0, y : 3)
@@ -181,13 +219,23 @@ struct ModifyButtonsOverlayView: View {
                         .font(.system(size: 20, weight: .semibold))
                         .padding()
                         .onTapGesture(count: 1, perform: {
-                            list.removeAll(where: {$0.id == data.id})
+                            let item = model.first(where: {$0.pos == entry.pos})!
+                            moc.delete(item)
+                            for i in Int(entry.pos)..<model.count {
+                                model.first(where: {$0.pos == i})?.pos -= 1;
+                            }
+                            do {
+                                try moc.save()
+                            } catch {
+
+                            }
+                            posSelected = -1
                         })
-                    
+
                 }
                 .frame(width: 40, height: 40)
                 .offset(x: 0, y : 3)
-                
+
                 ZStack {
                     Circle()
                         .fill(Color(UIColor.gray))
@@ -200,7 +248,7 @@ struct ModifyButtonsOverlayView: View {
                                 modalState = true
                             }
                         })
-                    
+
                 }
                 .frame(width: 50, height: 50)
                 .offset(x: 0, y : 3)
@@ -209,39 +257,52 @@ struct ModifyButtonsOverlayView: View {
         }
     }
 }
+//
 
 struct EditOverlayModal: View {
-    
+
     @Binding var editModalOpen: Bool
-    @Binding var list: [ChartItem]
-    
-    
+    var model: FetchedResults<FlowchartItem>
+
     @State var text = ""
-    
+    @Environment(\.managedObjectContext) var moc
+
     var position: Int
-    
+
     var body: some View {
         ZStack {
-            
+
             Color.black
                 .opacity(0.7)
                 .edgesIgnoringSafeArea(.all)
                 .onTapGesture(count: 1, perform: {
                     withAnimation {
+                        let item = model.first(where: {$0.pos == position})
+                        item?.content = text
+                        do {
+                          try self.moc.save()
+                          print("saved new item")
+                         } catch {
+                          print(error.localizedDescription)
+                          }
+                        text = ""
                         editModalOpen = false
                     }
                 })
-            
+
             Group {
                 RoundedRectangle(cornerRadius: 25)
                     .fill(Color(UIColor.white))
                     .shadow(radius: 10)
-                    
-                
+
+
                 TextEditor(text: $text)
                     .background(Color(UIColor.white))
                     .padding()
                     .clipShape(RoundedRectangle(cornerRadius: 25))
+                    .onAppear {
+                        text = model.first(where: { $0.pos == position })?.content ?? ""
+                    }
             }
             .frame(width: 200, height: 200)
         }
