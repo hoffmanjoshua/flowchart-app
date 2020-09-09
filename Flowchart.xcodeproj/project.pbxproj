@@ -15,6 +15,8 @@
 		425FFB4624F4B88A0004802D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 425FFB4524F4B88A0004802D /* Preview Assets.xcassets */; };
 		425FFB4924F4B88A0004802D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 425FFB4724F4B88A0004802D /* LaunchScreen.storyboard */; };
 		425FFB5124F4B9C30004802D /* FlowchartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425FFB5024F4B9C30004802D /* FlowchartView.swift */; };
+		42B5A58E2508A026009CCB06 /* Blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B5A58D2508A026009CCB06 /* Blur.swift */; };
+		42B5A5902508A5E8009CCB06 /* ChartItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B5A58F2508A5E8009CCB06 /* ChartItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		425FFB4824F4B88A0004802D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		425FFB4A24F4B88A0004802D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		425FFB5024F4B9C30004802D /* FlowchartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowchartView.swift; sourceTree = "<group>"; };
+		42B5A58D2508A026009CCB06 /* Blur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blur.swift; sourceTree = "<group>"; };
+		42B5A58F2508A5E8009CCB06 /* ChartItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +90,7 @@
 			children = (
 				425FFB4024F4B8890004802D /* ChartListView.swift */,
 				425FFB5024F4B9C30004802D /* FlowchartView.swift */,
+				42B5A58D2508A026009CCB06 /* Blur.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -93,6 +98,7 @@
 		425FFB5524F4B9DC0004802D /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				42B5A58F2508A5E8009CCB06 /* ChartItem.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -167,6 +173,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42B5A58E2508A026009CCB06 /* Blur.swift in Sources */,
+				42B5A5902508A5E8009CCB06 /* ChartItem.swift in Sources */,
 				425FFB3F24F4B8890004802D /* Flowchart.xcdatamodeld in Sources */,
 				425FFB3A24F4B8890004802D /* AppDelegate.swift in Sources */,
 				425FFB4124F4B8890004802D /* ChartListView.swift in Sources */,
